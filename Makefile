@@ -1,25 +1,27 @@
-CC=gcc
-SRC=src/main.c src/math_utils.c
-OBJ=$(SRC:.c=.o)
-OUT=build/main
+CC = gcc
+SRCS = src/main.c src/sound_utils.c
+OBJS = $(patsubst src/%.c,build/%.o,$(SRCS))
+OUT = build/main
 
 BUILD ?= release
 
 ifeq ($(BUILD),debug)
-    CFLAGS=-Wall -g -DDEBUG
+    CFLAGS = -Wall -g -DDEBUG
 else
-    CFLAGS=-Wall -O2 -DNDEBUG
+    CFLAGS = -Wall -O2 -DNDEBUG
 endif
 
 all: $(OUT)
 
-$(OUT): $(OBJ)
+$(OUT): $(OBJS)
 	mkdir -p build
-	$(CC) $(OBJ) -o $(OUT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(OUT)
 
-%.o: %.c
+build/%.o: src/%.c
+	mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
 
+.PHONY: clean
 clean:
 	rm -rf build
-	find src -name '*.o' -delete
+
