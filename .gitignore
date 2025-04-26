@@ -1,5 +1,10 @@
 build/
 *.o
+*.so
 *.pyc
 __pycache__/
+.venv/
+.env/
 .sconsign.dblite
+.DS_Store
+.vscode/
